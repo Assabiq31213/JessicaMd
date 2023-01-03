@@ -10,8 +10,10 @@ RUN apt-get update && \
 
 COPY package.json .
 
-RUN npm install
+RUN yarn
 
 COPY . .
 
-CMD ["node", "."]
+EXPOSE 5000
+
+CMD ["npm", "start"]
