@@ -2477,7 +2477,7 @@ await fs.unlinkSync(outputFile)
 break
 case'ssweb': {
 let res = await scr.ssweb(`${q}+?device=dekstop`)
-sabiq.sendMessage(m.chat, { image: res }, caption: `Nih kak`, footer: footer }, { quoted: m})
+sabiq.sendMessage(m.chat, { image: res , caption: `Nih kak`, footer: footer }, { quoted: m})
 }
 break
 case 'menfes': case 'menfess': {
