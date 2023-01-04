@@ -29,6 +29,7 @@ const request = require('request');
 const textpro = require('./lib/textpro')
 const bochil = require('@bochilteam/scraper')
 const ai2d = require('@arugaz/ai2d')
+const { Configuration, OpenAIApi } = require("openai")
 const { mediafireDl } = require('./lib/mediafire.js')
 const { EmojiAPI } = require("emoji-api")
 const emoji = new EmojiAPI()
@@ -2474,6 +2475,11 @@ await fs.unlinkSync(outputFile)
 })
 }
 break
+case'ssweb': {
+let res = await scr.ssweb(`${q}+?device=dekstop`)
+sabiq.sendMessage(m.chat, { image: res }, caption: `Nih kak`, footer: footer }, { quoted: m})
+}
+break
 case 'menfes': case 'menfess': {
 if (m.isGroup) throw ('fitur tidak dapat digunakan di grup')
 if (!text) throw `Example : ${prefix + command} 6282xxxxx|nama samaran|pesan`
@@ -4139,19 +4145,16 @@ capt += `⭔ Member Count: ${i.member_count}\n\n──────────�
 sabiq.sendImage(m.chat, 'https://'+res.result[0].community_thumb, capt, m)
 }
 break
-case 'wattpad': {
+case'wp': case 'wattpad': {
 if (!text) throw `Example : ${prefix + command} love`
 let res = await scr.wattpad(q)
-let { judul, dibaca, divote, bab, waktu, link, thumb, description } = res.result[0]
+let { judul, dibaca, divote, bab, waktu, link, thumb, description } = res
 let capt = `Wattpad From ${text}\n\n`
 capt += `⭔ Judul: ${judul}\n`
 capt += `⭔ Dibaca: ${dibaca}\n`
 capt += `⭔ Divote: ${divote}\n`
-capt += `⭔ Bab: ${bab}\n`
-capt += `⭔ Waktu: ${waktu}\n`
-capt += `⭔ Url: ${url}\n`
-capt += `⭔ Deskripsi: ${description}`
-sabiq.sendImage(m.chat, thumb, capt, m)
+capt += `⭔ Url: ${link}\n`
+sabiq.sendMessage(m.chat, { image: { url: res.thumb }, caption: capt, footer: footer }, { quoted: m})
 }
 break
 case 'webtonsearch': case 'webtoon': {
@@ -4927,6 +4930,7 @@ ${simbol} ${prefix}soundcloud [url]
 ❍ *SEARCH MENU* ❍
 ${simbol} ${prefix}play [query]
 ${simbol} ${prefix}yts [query]
+${simbol} ${prefix}openai [query]
 ${simbol} ${prefix}google [query]
 ${simbol} ${prefix}gimage [query]
 ${simbol} ${prefix}pinterest [query]
@@ -4979,6 +4983,8 @@ ${simbol} ${prefix}shota
 ${simbol} ${prefix}elaina
 ${simbol} ${prefix}hinata
 ${simbol} ${prefix}miku
+${simbol} ${prefix}kiss
+${simbol} ${prefix}jadianime
 
 [NSFW ANIME]
 ${simbol} ${prefix}nsfwwaifu

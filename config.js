@@ -69,11 +69,11 @@ global.mygc = "-"
 // setting bot
 global.autoread = false
 global.simbol = '•'
-global.keyopenai = "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"
+global.keyopenai = "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"
 
 // Engak Ngaruh, Belum Kepasang
-global.botname = 'NAZE BOT'
-global.akulaku = 'Bot By Naze'
+global.botname = 'Jessica Bot'
+global.akulaku = 'By BiqqTzy'
 global.ytname = 'Assabiq YT' //Kalo Ngk Punya Yt Ngak Usah Di Ganti
 
 
