@@ -69,7 +69,7 @@ global.mygc = "-"
 // setting bot
 global.autoread = false
 global.simbol = '•'
-global.keyopenai = "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"
+global.keyopenai = "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"
 
 // Engak Ngaruh, Belum Kepasang
 global.botname = 'Jessica Bot'
