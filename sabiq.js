@@ -4366,11 +4366,12 @@ rows: [
 {title: "Anime Menu", rowId: `manime`, description: `Menampilkan daftar anime menu`},
 {title: "Primbon Menu", rowId: `mprimbon`, description: `Menampilkan daftar primbon menu`},
 {title: "Converter Menu", rowId: `mconvert`, description: `Menampilkan daftar converter menu, contoh: sticker, toimg dll`},
+{title: "Random Menu", rowId: `mrandom`, description: `Menampilkan daftar random menu`},
 {title: "Other Menu", rowId: `mother`, description: `Menampilkan daftar other menu`},
 {title: "Islam Menu", rowId: `mislamic`, description: `Menampilkan daftar islam menu`},
 {title: "Voice Menu", rowId: `mvoice`, description: `Menampilkan daftar voice changer menu`},
-{title: "Owner Menu", rowId: `mowner`, description: `Menampilkan daftar owner menu`},
-{title: "Maker Menu", rowId: `mmaker`, description: `Menampilkan daftar maker menu`}
+{title: "Maker Menu", rowId: `mmaker`, description: `Menampilkan daftar maker menu`},
+{title: "Owner Menu", rowId: `mowner`, description: `Menampilkan daftar owner menu`}
 ]
 },
   {
@@ -4385,7 +4386,7 @@ rows: [{title: "Owner Bot", rowId: `owner`, description: `Menampilkan owner bot`
 {title: "Info Owner", rowId: `infoowner`, description: `Menampilkan info owner`}
 ]
 },{
-title: ' ∫ » SUPPORT ME –––––––·•',
+title: 'SUPPORT ME👇',
 rows: [
 {title: "Donasi", rowId: `donasi`, description: `Donasi seikhlasnya agar owner lebih semangat mengembangkan sc ini :v`},
 {title: "Subscribe", rowId: `subsyt`, description: `Thanks For Subscribe︎`},
@@ -4499,7 +4500,7 @@ ${simbol} ${prefix}bucin
 ${simbol} ${prefix}gombal
 ${simbol} ${prefix}couple
 `
-let buttons = [{ buttonId: 'cmd', buttonText: { displayText: 'cmd' }, type: 1 },{ buttonId: 'allmenu', buttonText: { displayText: 'All Menu' }, type: 1 }]
+let buttons = [{ buttonId: 'cmd', buttonText: { displayText: 'Back' }, type: 1 },{ buttonId: 'allmenu', buttonText: { displayText: 'All Menu' }, type: 1 }]
 await sabiq.sendButtonText(m.chat, buttons, rndom, footer, m, {quoted: fkontak})
 }
 break
