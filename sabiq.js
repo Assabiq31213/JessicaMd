@@ -3460,42 +3460,42 @@ sabiq.sendMessage(m.chat, buttonMessage, { quoted: m })
 break
 case 'quotes': {
 let res = await scr2.quotes()
-sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result.quote}\n\n\nBy: ${res.result.by}`, footer, m)
+sabiq.sendButtonText(m.chat, [{ buttonId: `${command}`, buttonText: { displayText: `Next` }, type: 1 }], `${res.result.quote}\n\n\nBy: ${res.result.by}`, footer, m)
 }
 break
 case 'katadilan': {
 let res = await scr2.quotedilan()
-sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+sabiq.sendButtonText(m.chat, [{ buttonId: `${command}`, buttonText: { displayText: `Next` }, type: 1 }], `${res.result}`, footer, m)
 }
 break
 case 'quotejawa': {
 let res = await scr2.quotejawa()
-sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+sabiq.sendButtonText(m.chat, [{ buttonId: `${command}`, buttonText: { displayText: `Next` }, type: 1 }], `${res.result}`, footer, m)
 }
 break
 case 'katailham': {
 let res = await scr2.katailham()
-sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+sabiq.sendButtonText(m.chat, [{ buttonId: `${command}`, buttonText: { displayText: `Next` }, type: 1 }], `${res.result}`, footer, m)
 }
 break
 case 'katagalau': {
 let res = await scr2.quotegalau()
-sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+sabiq.sendButtonText(m.chat, [{ buttonId: `${command}`, buttonText: { displayText: `Next` }, type: 1 }], `${res.result}`, footer, m)
 }
 break
 case 'katabucin': {
 let res = await scr2.quotebucin()
-sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+sabiq.sendButtonText(m.chat, [{ buttonId: `${command}`, buttonText: { displayText: `Next` }, type: 1 }], `${res.result}`, footer, m)
 }
 break
 case 'bucin': {
 let res = await scr2.bucin()
-sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+sabiq.sendButtonText(m.chat, [{ buttonId: `${command}`, buttonText: { displayText: `Next` }, type: 1 }], `${res.result}`, footer, m)
 }
 break
 case 'gombal': {
 let res = await scr2.gombal()
-sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+sabiq.sendButtonText(m.chat, [{ buttonId: `${command}`, buttonText: { displayText: `Next` }, type: 1 }], `${res.result}`, footer, m)
 }
 break
 case 'nomerhoki': case 'nomorhoki': {
