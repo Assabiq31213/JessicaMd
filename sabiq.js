@@ -43,6 +43,7 @@ const primbon = new Primbon()
 const { videoToWebp, imageToWebp } = require('./lib/exif')
 const { smsg, formatp, tanggal, formatDate, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
 const scr = require('./lib/scraper1')
+const scr2 = require('./lib/scraper')
 
 const hariini = moment.tz('Asia/Jakarta').format('dddd, DD MMMM YYYY')
 const hariiini = moment.tz('Asia/Jakarta').format('DD MMMM YYYY')
@@ -705,7 +706,7 @@ delete this.suit[id]
 break
 case 'chat': {
 if (!isCreator) throw mess.owner
-if (!q) throw 'Option : 1. mute\n2. unmute\n3. archive\n4. unarchive\n5. read\n6. unread\n7. delete'
+if (!q) throw 'Option : \n1. mute\n2. unmute\n3. archive\n4. unarchive\n5. read\n6. unread\n7. delete'
 if (args[0] === 'mute') {
  sabiq.chatModify({ mute: 'Infinity' }, m.chat, []).then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
 } else if (args[0] === 'unmute') {
@@ -2064,7 +2065,7 @@ break**/
 
 //PEMBATAS CONVERT=======================================
 case 'colong':
-if (!/webp/.test(mime)) return reply('Only Stiker')
+if (!/webp/.test(mime)) return m.reply('Only Stiker')
 m.reply(mess.wait)
 try {
 let { writeExif } = require('./lib/exif')
@@ -2318,10 +2319,10 @@ await fs.unlinkSync(encmedia)
 }
 }
 break
-case 'attp': case 'ttp': {
+case 'ttp': {
 if (!text) throw `Example : ${prefix + command} text`
-await sabiq.sendMedia(m.chat, `https://xteam.xyz/${command}?file&text=${text}`, 'sabiq', 'dev', m, {asSticker: true})
-
+let res = await scr2.ttp(q)
+sabiq.sendImageAsSticker(m.chat, res.result, m, { packname: packname, author: author })
  }
  break
  case 'tts': {
@@ -2476,7 +2477,7 @@ await fs.unlinkSync(outputFile)
 }
 break
 case'ssweb': {
-let res = await scr.ssweb(`${q}+?device=dekstop`)
+let res = await scr.ssweb(q + '?device=dekstop')
 sabiq.sendMessage(m.chat, { image: res , caption: `Nih kak`, footer: footer }, { quoted: m})
 }
 break
@@ -3457,18 +3458,44 @@ headerType: 2
 sabiq.sendMessage(m.chat, buttonMessage, { quoted: m })
 }
 break
-case 'motivasi': {
-let anu = await fetchJson(`https://kocakz.herokuapp.com/api/random/text/quotes`)
-let buttons = [
-{buttonId: `motivasi`, buttonText: {displayText: 'Next'}, type: 1}
-]
-let buttonMessage = {
-text: anu.result.quote,
-footer: footer,
-buttons: buttons,
-headerType: 2
+case 'quotes': {
+let res = await scr2.quotes()
+sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result.quote}\n\n\nBy: ${res.result.by}`, footer, m)
 }
-sabiq.sendMessage(m.chat, buttonMessage, { quoted: m })
+break
+case 'katadilan': {
+let res = await scr2.quotedilan()
+sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+}
+break
+case 'quotejawa': {
+let res = await scr2.quotejawa()
+sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+}
+break
+case 'katailham': {
+let res = await scr2.katailham()
+sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+}
+break
+case 'katagalau': {
+let res = await scr2.quotegalau()
+sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+}
+break
+case 'katabucin': {
+let res = await scr2.quotebucin()
+sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+}
+break
+case 'bucin': {
+let res = await scr2.bucin()
+sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
+}
+break
+case 'gombal': {
+let res = await scr2.gombal()
+sabiq.sendButtonText(m.chat, [{ buttonId: 'Next', buttonText: { displayText: `${command}` }, type: 1 }], `${res.result}`, footer, m)
 }
 break
 case 'nomerhoki': case 'nomorhoki': {
@@ -4461,15 +4488,16 @@ rndom = `❍ *RANDOM MENU* ❍
 
 ${simbol} ${prefix}gbtku
 ${simbol} ${prefix}coffe
+${simbol} ${prefix}quotes
 ${simbol} ${prefix}quotesanime
-${simbol} ${prefix}motivasi
-${simbol} ${prefix}dilanquote
-${simbol} ${prefix}bucinquote
-${simbol} ${prefix}katasenja
-${simbol} ${prefix}puisi
+${simbol} ${prefix}quotejawa
+${simbol} ${prefix}katabucin
+${simbol} ${prefix}katailham
+${simbol} ${prefix}katadilan
+${simbol} ${prefix}katagalau
+${simbol} ${prefix}bucin
+${simbol} ${prefix}gombal
 ${simbol} ${prefix}couple
-${simbol} ${prefix}anime
-${simbol} ${prefix}waifu
 `
 let buttons = [{ buttonId: 'cmd', buttonText: { displayText: 'cmd' }, type: 1 },{ buttonId: 'allmenu', buttonText: { displayText: 'All Menu' }, type: 1 }]
 await sabiq.sendButtonText(m.chat, buttons, rndom, footer, m, {quoted: fkontak})
@@ -4943,15 +4971,16 @@ ${simbol} ${prefix}stalk [option] [query]
 ❍ *RANDOM MENU* ❍
 ${simbol} ${prefix}gbtku
 ${simbol} ${prefix}coffe
+${simbol} ${prefix}quotes
 ${simbol} ${prefix}quotesanime
-${simbol} ${prefix}motivasi
-${simbol} ${prefix}dilanquote
-${simbol} ${prefix}bucinquote
-${simbol} ${prefix}katasenja
-${simbol} ${prefix}puisi
+${simbol} ${prefix}quotejawa
+${simbol} ${prefix}katabucin
+${simbol} ${prefix}katailham
+${simbol} ${prefix}katadilan
+${simbol} ${prefix}katagalau
+${simbol} ${prefix}bucin
+${simbol} ${prefix}gombal
 ${simbol} ${prefix}couple
-${simbol} ${prefix}anime
-${simbol} ${prefix}waifu
 
 ❍ *ASUPAN MENU* ❍
 ${simbol} ${prefix}asupan
