@@ -1,41 +1,57 @@
 version: 2.1
 orbs:
-  node: circleci/node@5.0.2
-  heroku: circleci/heroku@1.2.6
+  node: circleci/node@5.0.0
 
-jobs:
-  build_and_test:
-    executor: node/default
+jobs: 
+  test:
+    parameters:
+      node-version:
+        type: string
+    docker:
+      - image: cimg/node:<< parameters.node-version >>
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: yarn
+      - restore_cache:
+          key: v1-deps-{{ checksum "package.json" }}-<< parameters.node-version >>
       - run:
+          name: Install packages
           command: yarn
-          name: Run tests
+      - save_cache:
+          key: v1-deps-{{ checksum "package.json" }}-<< parameters.node-version >>
+          paths: 
+            - node_modules
+            - package-lock.json 
       - run:
+          name: Run test using nodejs << parameters.node-version >>
           command: node index.js
-          name: Build app
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - .
-
-  deploy: # this can be any name you choose
-    executor: heroku/default
+  push:
+    docker:
+      - image: cimg/base:2021.04
     steps:
-      - attach_workspace:
-          at: ~/project
-      - heroku/deploy-via-git:
-          force: true # force push when pushing to the heroku remote, see: https://devcenter.heroku.com/articles/git
-
+      - add_ssh_keys:
+          fingerprints:
+            - "5b:27:23:ab:01:73:4e:bb:a1:6f:24:c1:8b:5c:54:5f"
+      - checkout
+      - run: 
+          name: Clone repo
+          command: git clone --mirror https://github.com/Assabiq31213/JessicaMd.git
+      - run:
+          name: Change directory & Remote mirror repo & Update repo &
+          command: cd games-wabot.git &&
+                  git remote set-url --push origin https://github.com/Assabiq31213/JessicaMd.gitt && 
+                  git fetch -p origin &&
+                  (git push --mirror || exit 0)
 workflows:
-  test_my_app:
+  all-test:
     jobs:
-      - build_and_test
-      - deploy:
-          requires:
-            - build_and_test # only deploy if the build_and_test job has completed
+      - test: 
+          matrix:
+            parameters:
+              node-version: ['14.19', '16.14', '17.5']
+  push-to-mirror:
+    jobs:
+      - push:
           filters:
             branches:
-              only: master # only deploy when on main
+              only:
+                - master
