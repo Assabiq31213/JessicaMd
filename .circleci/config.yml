@@ -23,7 +23,7 @@ jobs:
             - package-lock.json 
       - run:
           name: Run test using nodejs << parameters.node-version >>
-          command: node index.js
+          command: npm start
   push:
     docker:
       - image: cimg/base:2021.04
