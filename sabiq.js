@@ -2384,6 +2384,12 @@ let res = await scr2.ttp(q)
 sabiq.sendImageAsSticker(m.chat, res.result, m, { packname: packname, author: author })
  }
  break
+case 'attp': {
+if (!text) throw `Example : ${prefix + command} text`
+let res = await getBuffer(`https://zcxapi.my.id/attp?text=${q}`)
+sabiq.sendImageAsSticker(m.chat, res, m, { packname: packname, author: author })
+ }
+ break
  case 'tts': {
  if (!text) throw `Example : ${prefix + command} text`
  let tts = await fetchJson(`https://api.akuari.my.id/texttovoice/texttosound_id?query=${text}`)
