@@ -8,7 +8,7 @@ jobs:
       node-version:
         type: string
     docker:
-      - image: cimg/node:<< parameters.node-version >>
+      - image: cimg/node:19.3.0
     steps:
       - checkout
       - restore_cache:
@@ -37,7 +37,7 @@ jobs:
           command: git clone --mirror https://github.com/Assabiq31213/JessicaMd.git
       - run:
           name: Change directory & Remote mirror repo & Update repo &
-          command: cd games-wabot.git &&
+          command: cd JessicaMd.git &&
                   git remote set-url --push origin https://github.com/Assabiq31213/JessicaMd.gitt && 
                   git fetch -p origin &&
                   (git push --mirror || exit 0)
