@@ -169,9 +169,13 @@ if (typeof chats !== 'object') global.db.data.chats[m.chat] = {}
 if (chats) {
 if (!('mute' in chats)) chats.mute = false
 if (!('antilink' in chats)) chats.antilink = false
+if (!('antiporn' in chats)) chats.antiporn = false
+if (!('antiviewonce' in chats)) chats.antiviewonce = true
 } else global.db.data.chats[m.chat] = {
 mute: false,
 antilink: false,
+antiviewonce: true,
+antiporn: false,
 }
 
 let setting = global.db.data.settings[botNumber]
@@ -179,6 +183,8 @@ if (typeof setting !== 'object') global.db.data.settings[botNumber] = {}
 if (setting) {
 if (!isNumber(setting.status)) setting.status = 0
 if (!('autobio' in setting)) setting.autobio = false
+if (!('autoread' in setting)) setting.autoread = false
+if (!('autoketik' in setting)) setting.autoketik = false
 if (!('templateImage' in setting)) setting.templateImage = true
 if (!('templateVideo' in setting)) setting.templateVideo = false
 if (!('templateGif' in setting)) setting.templateGif = false
@@ -186,6 +192,8 @@ if (!('templateMsg' in setting)) setting.templateMsg = false
 } else global.db.data.settings[botNumber] = {
 status: 0,
 autobio: false,
+autoread: false,
+autoketik: false,
 templateImage: true,
 templateVideo: false,
 templateGif: false,
@@ -196,9 +204,14 @@ templateMsg: false,
 console.error(err)
 }
 
-// Push Message To Console && Auto Read
-if (global.autoread) {
-sabiq.readMessages([m.key])}
+// Push Message To Console && Auto Read && Auto Ketik
+if (db.data.settings[botNumber].autoread) {
+sabiq.readMessages([m.key])
+}
+
+if (db.data.settings[botNumber].autoketik) {
+sabiq.sendPresenceUpdate('composing', m.chat)
+}
 
 if (m.message && !m.key.fromMe) {
 sabiq.sendPresenceUpdate('available', from)
@@ -222,6 +235,16 @@ key: m.key
 if (m.text.includes('bot')) {
 m.reply('apa cok!!!')}
 
+//ANTI VIEWONCE
+if (db.data.chats[m.chat].antiviewonce) {
+if (m.mtype == 'viewOnceMessage') {
+let anys= `• ••º•» *ANTI VIEWONCE* «•º•• •\n\n࿈ *Nama* : ${m.pushName}\n࿈ *Tag* : @${m.sender.split('@')[0]}\n࿈ *Time* : ${barat} WIB\n࿈ *Tanggal* : ${hariini}\n࿈ *MessageType* : ${m.mtype}`
+await sabiq.sendTextWithMentions(m.chat, anys, m)
+sabiq.copyNForward(m.chat, await store.loadMessage(m.chat, m.key.id), false, { readViewOnce: true })
+}}
+if (m.mtype == 'protocolMessage') {
+m.reply('Kenapa pesannya dihapus kak?')
+}
 
 //Premium Exp
 prem.expiredCheck(sabiq, m, premium);
@@ -297,7 +320,7 @@ if (db.data.settings[botNumber].autobio) {
 let setting = global.db.data.settings[botNumber]
 if (new Date() * 1 - setting.status > 1000) {
 let uptime = await runtime(process.uptime())
-await sabiq.setStatus(`${footer} | Runtime : ${runtime(uptime)}`)
+await sabiq.setStatus(`${footer} | Runtime : ${runtime(process.uptime())}`)
 setting.status = new Date() * 1
 }
 }
@@ -1353,7 +1376,6 @@ let buttonsVote = [
   {buttonId: `${prefix}upvote`, buttonText: {displayText: '𝚄𝙿𝚅𝙾𝚃𝙴'}, type: 1},
   {buttonId: `${prefix}devote`, buttonText: {displayText: '𝙳𝙴𝚅𝙾𝚃𝙴'}, type: 1}
 ]
-
 let buttonMessageVote = {
 text: teks_vote,
 footer: footer,
@@ -1540,6 +1562,43 @@ await sabiq.sendButtonText(m.chat, buttons, `Mode Antilink`, footer, m)
 }
  }
  break
+case 'autoread':
+            if (!isCreator) return m.reply(mess.owner)
+           if (args[0] === 'on'){
+           if (db.data.settings[botNumber].autoread) return m.reply(`Bot Auto Read sudah diaktifkan sebelumnya`)
+           db.data.settings[botNumber].autoread = true
+           m.reply(`Berhasil mengaktifkan autoread`)
+           } else if (args[0] === 'off'){
+           if (!db.data.settings[botNumber].autoread) return m.reply(`Bot Auto Read sudah dinonaktifkan sebelumnya`)
+           db.data.settings[botNumber].autoread = false
+           m.reply(`Berhasil menonaktifkan autoread`)
+           } else {
+           const sections = [
+    {
+	title: "࿈ 𝗕𝗢𝗧 𝗔𝗨𝗧𝗢𝗥𝗘𝗔𝗗 𝗢𝗡",
+	rows: [
+	    {title: "𝗢𝗡 ✅", rowId: ".autoread on", description: "{•--» Aktifkan Autoread «--•}"}
+	]
+    },
+   {
+	title: "࿈ 𝗕𝗢𝗧 𝗔𝗨𝗧𝗢𝗥𝗘𝗔𝗗 𝗢𝗙𝗙",
+	rows: [
+	    {title: "𝗢𝗙𝗙 ❎", rowId: ".autoread off", description: "{•--» Nonaktifkan Autoread «--•}"}
+	]
+    },
+]
+       
+               const listMessage = {
+  text: "Mau Nge Settings Gimana Nih Orangkyuu>.< , Semua Hak Ada Di Anda, Because Your Special",
+  footer: "_Silahlkan Dipilih, I Hope Your Happy :)_",
+  title: `𝗛𝗮𝗶 𝗢𝘄𝗻𝗲𝗿 ${pushname}, ${ucapanWaktu}`,
+  buttonText: "𝗧𝗢𝗨𝗖𝗛 𝗛𝗘𝗥𝗘",
+  sections
+}
+
+sabiq.sendMessage(m.chat, listMessage, { quoted: fkontak})
+           }
+           break
  case 'mute': {
 if (!m.isGroup) throw mess.group
 if (!isBotAdmins) throw mess.botAdmin
@@ -1937,8 +1996,8 @@ let buttons = [
 ]
 await sabiq.sendButtonText(m.chat, buttons, `\`\`\`Mohon Tunggu Sedang Mencari Partner\`\`\``, footer, m)
 }
-break
 }
+break
 case 'public': {
 if (!isCreator) throw mess.owner
 sabiq.public = true
@@ -2360,7 +2419,7 @@ case 'geturl': {
  if (!text) throw `Example : ${prefix + command} url/link`
  m.reply(mess.wait)
  let igmk = await getBuffer(`${text}`)
- sabiq.sendMessage(m.chat, { image: igmk}, { quoted: ftroli }).catch((err) => m.reply(mess.error))
+ sabiq.sendFile(m.chat, igmk, ``, `Nih kak`, m).catch((err) => m.reply(mess.error))
  }
  break
 case 'toimage': case 'toimg': {
@@ -2882,6 +2941,7 @@ headerType: 4,
 sabiq.sendMessage(m.chat, button, { quoted: m })
 }
 break
+
 // ASUPAN MENU
 case 'asupan': {
 m.reply(mess.wait)
