@@ -2387,7 +2387,7 @@ sabiq.sendImageAsSticker(m.chat, res.result, m, { packname: packname, author: au
 case 'attp': {
 if (!text) throw `Example : ${prefix + command} text`
 let res = await getBuffer(`https://zcxapi.my.id/attp?text=${q}`)
-sabiq.sendImageAsSticker(m.chat, res, m, { packname: packname, author: author })
+sabiq.sendVideoAsSticker(m.chat, res, m, { packname: packname, author: author })
  }
  break
  case 'tts': {
@@ -2541,9 +2541,17 @@ await fs.unlinkSync(outputFile)
 })
 }
 break
-case'ssweb': {
-let res = await scr.ssweb(q + '?device=dekstop')
-sabiq.sendMessage(m.chat, { image: res , caption: `Nih kak`, footer: footer }, { quoted: m})
+case 'ssweb': {
+if (!isUrl(args[0]) && !args[0].includes('https://')) return m.reply(`Link tersebut tidak valid`)
+m.reply(mess.wait)
+let res = await scr.ssweb(q)
+sabiq.sendMessage(m.chat, { image: res.result , caption: `Nih kak`, footer: footer }, { quoted: m})
+}
+break
+case 'sshp': {
+m.reply(mess.wait)
+let res = await scr.ssweb(q)
+sabiq.sendMessage(m.chat, { image: res.result , caption: `Nih kak`, footer: footer }, { quoted: m})
 }
 break
 case 'menfes': case 'menfess': {
@@ -2579,7 +2587,7 @@ sabiq.sendMessage(m.chat, { image: { url: search.all[0].thumbnail },  caption: t
 }
 break*/
 case 'yts': case 'search': case 'ytsearch': {
-if (args.length < 1) return reply(`Contoh:\n${prefix+command} bukti Virgoun`)
+if (args.length < 1) return m.reply(`Contoh:\n${prefix+command} bukti Virgoun`)
 let list_rows = [];
 let yts = require("yt-search")
 const data = await yts(q);
