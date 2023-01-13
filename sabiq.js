@@ -28,7 +28,6 @@ const naztod = require("tod-api")
 const request = require('request');
 const textpro = require('./lib/textpro')
 const bochil = require('@bochilteam/scraper')
-const ai2d = require('@arugaz/ai2d')
 const { Configuration, OpenAIApi } = require("openai")
 const { mediafireDl } = require('./lib/mediafire.js')
 const { EmojiAPI } = require("emoji-api")
@@ -50,7 +49,7 @@ const hariiini = moment.tz('Asia/Jakarta').format('DD MMMM YYYY')
 const barat = moment.tz('Asia/Jakarta').format('HH:mm:ss')
 const tengah = moment.tz('Asia/Makassar').format('HH:mm:ss')
 const timur = moment.tz('Asia/Jayapura').format('HH:mm:ss')
-const ini_mark = `0@s.whatsapp.net`
+const ini_mark = `6285790466509@s.whatsapp.net`
 const ownernya = ownernomer + '@s.whatsapp.net'
 global.prem = require("./lib/premium")
 gambar = fs.readFileSync('./media/image/sabiq.jpg')
@@ -213,7 +212,7 @@ if (db.data.settings[botNumber].autoketik) {
 sabiq.sendPresenceUpdate('composing', m.chat)
 }
 
-if (m.message && !m.key.fromMe) {
+if (m.message) {
 sabiq.sendPresenceUpdate('available', from)
 console.log(chalk.black(chalk.bgWhite('[ PESAN ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> Dari'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> Di'), chalk.green(m.isGroup ? pushname : 'Private Chat', m.chat))
 }
@@ -2386,14 +2385,17 @@ sabiq.sendImageAsSticker(m.chat, res.result, m, { packname: packname, author: au
  break
 case 'attp': {
 if (!text) throw `Example : ${prefix + command} text`
-let res = await getBuffer(`https://zcxapi.my.id/attp?text=${q}`)
-sabiq.sendVideoAsSticker(m.chat, res, m, { packname: packname, author: author })
+sabiq.sendVideoAsSticker(m.chat, 'https://zcxapi.my.id/attp?text=${text}', m, { packname: packname, author: author })
  }
  break
- case 'tts': {
- if (!text) throw `Example : ${prefix + command} text`
- let tts = await fetchJson(`https://api.akuari.my.id/texttovoice/texttosound_id?query=${text}`)
- sabiq.sendMessage(m.chat, { audio: { url: tts.result }, mimetype: 'audio/mpeg', fileName: `${text}.mp3` }, { quoted: fvn })
+case 'at': {
+sabiq.sendMessage(m.chat, { sticker: { url : `https://zcxapi.my.id/attp?text=${q}` }}, {quoted:m})
+}
+break
+case 'tts': {
+if (!text) throw `Example : ${prefix + command} text`
+let tts = await fetchJson(`https://api.akuari.my.id/texttovoice/texttosound_id?query=${text}`)
+sabiq.sendMessage(m.chat, { audio: { url: tts.result }, mimetype: 'audio/mpeg', fileName: `${text}.mp3` }, { quoted: fvn })
  }
  break
 case 'smeme': case 'stickmeme': case 'stikmeme': case 'stickermeme': case 'stikermeme': {
@@ -2859,8 +2861,6 @@ sabiq.sendMessage(m.chat, button, { quoted: m })
 }
 break
 case 'kiss': {
-ranp = getRandom('.gif')
-rano = getRandom('.webp')
 anu = await fetchJson(`https://api.waifu.pics/sfw/kiss`)
 sabiq.sendVideoAsSticker(m.chat, anu.url, m, { packname: global.packname, author: global.author })
 }
@@ -4331,29 +4331,27 @@ break
 let ownernya = ownernomer + '@s.whatsapp.net'
 let me = m.sender
 let jawab = `*${ucapanWaktu}*
-╭──❍「 𝙄𝙉𝙁𝙊 𝙐𝙎𝙀𝙍 」❍
-├ *Nama* : ${pushname}
-├ *Number* : @${me.split('@')[0]}
-├ *Premium* : ${isPremium ? '✅' : `❌`}
-├ *Limit* : ${isPremium ? '♾Infinity' : `〽️${db.data.users[m.sender].limit}`}
-╰──❍
+❍「 _*INFO USER*_ 」❍
+*Nama* : ${pushname}
+*Number* : @${me.split('@')[0]}
+*Premium* : ${isPremium ? '✅' : `❌`}
+*Limit* : ${isPremium ? '♾Infinity' : `〽️${db.data.users[m.sender].limit}`}
 
-╭──❍「 𝙄𝙉𝙁𝙊 𝘽𝙊𝙏 」❍
-├ *Nama Bot* : ${botname}
-├ *Powered* :\n├ *@${ini_mark.split('@')[0]}*
-├ *Owner* : @${ownernya.split('@')[0]}
-├ *Mode* : ${sabiq.public ? 'Public' : `Self`}
-├ *Prefix* :「 MULTI-PREFIX 」
-├ *Total Hit* : ${jumlahcmd}
-├ *Total Hit Today* : ${jumlahharian}
-╰──❍
+❍「 _*INFO BOT*_ 」❍
+*Nama Bot* : ${botname}
+*Powered* :\n*@${ini_mark.split('@')[0]}*
+*Owner* : @${ownernya.split('@')[0]}
+*Mode* : ${sabiq.public ? 'Public' : `Self`}
+*Prefix* :「 MULTI-PREFIX 」
+*Total Hit* : ${jumlahcmd}
+*Total Hit Today* : ${jumlahharian}
 
-╭──❍「 𝙄𝙉𝘿𝙊𝙉𝙀𝙎𝙄𝘼 」❍
-├ *Hari Ini* :\n├ *${hariini}*
-├ *Wib* : ${barat} WIB
-├ *Wita* : ${tengah} WITA
-├ *Wit* : ${timur} WIT
-╰──❍`
+❍「 _*INFO WAKTU*_ 」❍
+*Hari Ini* :\n*${hariini}*
+*Wib* : ${barat} WIB
+*Wita* : ${tengah} WITA
+*Wit* : ${timur} WIT
+`
 let ments = [ownernya, me, ini_mark]
 let buttons = [{ buttonId: 'allmenu', buttonText: { displayText: 'All Menu' }, type: 1 },{ buttonId: 'rules', buttonText: { displayText: '❗Rules' }, type: 1 },{ buttonId: 'donasi', buttonText: { displayText: '🙏Donasi' }, type: 1 }]
 let buttonMessage = {
@@ -4380,51 +4378,60 @@ let buttonMessage = {
   sabiq.sendMessage(m.chat, buttonMessage, {quoted: fkontak})
   }
  break*/
-/*case 'simplemenu': case 'list': case 'help': {
-let ownernya = ownernomer + '@s.whatsapp.net'
-let me = m.sender
-let ments = [ownernya, me, ini_mark]
-let kukiw = `*Kak ${pushname}*`
-let sections = [
-{
-title: ' ∫ » Sewa Bot? –––––––·•',
-rows: [
-{title: "〽️ • Sewa", rowId: `donasi`, description: `KLIK UNTUK SEWA BOT`},
-{title: "📴 • Owner", rowId: `owner`, description: `KLIK UNTUK BERTANYA KEPADA OWNER`}
-]
-},{
-title: "⚠︎  ∫ » CHANGE MENU BOT « ✧",
-rows: [
-{title: "✦  「 Group 」", rowId: `mgroup`, description: `╰ ► 👥Fitur Buat Grup, Tapi Hati Hati Admin :v`},
-{title: "✦  「 Webzone 」", rowId: `mwebzone`, description: `╰ ► 📹Cari Film? Sini Tempatnya 🤫`},
-{title: "✦  「 Downloader 」", rowId: `mdownloader`, description: `╰ ► 📥Buat Download Apaan? 🤨`},
-{title: "✦  「 Search 」", rowId: `msearch`, description: `╰ ► 🔍Cari Apa Hayo`},
-{title: "✦  「 Random 」", rowId: `mrandom`, description: `╰ ► ❔Random Moment🗿`},
-{title: "✦  「 Text Pro 」", rowId: `mtextpro`, description: `╰ ► ❇Teksnya Keren Kan?`},
-{title: "✦  「 Photo Oxy 」", rowId: `mphotooxy`, description: `╰ ► ♻️Gabut Amat`},
-{title: "✦  「 Ephoto 」", rowId: `mephoto`, description: `╰ ► 🗳Buat Edit Apaan?`},
-{title: "✦  「 Fun 」", rowId: `mfun`, description: `╰ ► 🔫Buat Fun² Bro`},
-{title: "✦  「 Primbon 」", rowId: `mprimbon`, description: `╰ ► 😂Ngakak`},
-{title: "✦  「 Convert 」", rowId: `mconvert`, description: `╰ ► 🛠Mau Buat Apa?`},
-{title: "✦  「 Main 」", rowId: `mmain`, description: `╰ ► 💾Senjata Admin & Owner`},
-{title: "✦  「 Database 」", rowId: `mdatabase`, description: `╰ ► 📁Engak Ada Apa² Disini`},
-{title: "✦  「 Anonymous 」", rowId: `manonymous`, description: `╰ ► 🎭Fitur Rahasia Jangan Dipake !`},
-{title: "✦  「 Islamic 」", rowId: `mislamic`, description: `╰ ► 🕌Masyaallah Brother`},
-{title: "✦  「 Voice 」", rowId: `mvoice`, description: `╰ ► 🎶Req Lagu Apa Ngab?`},
-{title: "✦  「 Owner 」", rowId: `mowner`, description: `╰ ► 🎟Jangan Ganggu Ownerku😡`}
-]
-},{
-title: ' ∫ » SUPPORT ME –––––––·•',
-rows: [
-{title: "🎟 • Donasi", rowId: `donasi`, description: `╰ ► 💰 Donasi ♕︎`},
-{title: "🔴 • Subscribe", rowId: `subsyt`, description: `╰ ► 📢 Thanks For Subscribe ♕︎`},
-{title: "📚 • Github", rowId: `sc`, description: `╰ ► 🎷 Follow My Github ♕︎`}
-]
-  },
-]
-sabiq.sendListMsg(m.chat, kukiw, footer, `*${ucapanWaktu}*`, `Touch Me (⁠≧⁠▽⁠≦⁠)`, sections, fkontak)
+ 
+case 'menu': {
+let mnlist = `*${ucapanWaktu}*
+
+❍「 _*INFO USER*_ 」❍
+*Nama* : ${pushname}
+*Number* : @${sender.split('@')[0]}
+*Premium* : ${isPremium ? '✅' : `❌`}
+*Limit* : ${isPremium ? '♾Infinity' : `〽️${db.data.users[m.sender].limit}`}
+
+❍「 _*INFO BOT*_ 」❍
+*Nama Bot* : ${botname}
+*Owner* : @${ownernya.split('@')[0]}
+*Mode* : ${sabiq.public ? 'Public' : `Self`}
+*Prefix* :「 MULTI-PREFIX 」
+*Total Hit* : ${jumlahcmd}
+*Total Hit Today* : ${jumlahharian}
+
+❍「 _*INFO WAKTU*_ 」❍
+*Hari Ini* :\n*${hariini}*
+*Wib* : ${barat} WIB
+*Wita* : ${tengah} WITA
+*Wit* : ${timur} WIT
+`
+let buttonmenu = [{
+urlButton: {
+displayText: 'WEBSITE',
+url: 'https://sabiq-web.ml'
 }
-break*/
+}, {
+urlButton: {
+displayText: 'INSTAGRAM',
+url: 'https://instagram.com/sbqxzy'
+}
+}, {
+quickReplyButton: {
+displayText: 'SIMPLE MENU',
+id: 'cmd'
+}
+}, {
+quickReplyButton: {
+displayText: 'ALL MENU',
+id: 'allmenu'
+}  
+}, {
+quickReplyButton: {
+displayText: 'ANONYMOUS CHAT',
+id: 'anonymous'
+}
+}]
+sabiq.sendMessage(m.chat, { caption: mnlist, document: fs.readFileSync('./media/doc/fake.xlsx'), mimetype: `${filsk}`, fileLength: '99999999999999', pageCount: '1000000000', jpegThumbnail:fs.readFileSync("./media/image/sabiq.jpg"), fileName: `JessicaMd`, templateButtons: buttonmenu, footer: footer, mentionedJid: [sender, ownernya, ini_mark] })
+}
+break
+
 case 'list': case 'cmd': case 'command': {
   let sections = [
 {
@@ -5516,34 +5523,18 @@ sabiq_dev = await getBuffer(`https://github.com/DGXeon/Tiktokmusic-API/raw/maste
 await sabiq.sendMessage(m.chat, { audio: sabiq_dev, mimetype: 'audio/mp4', ptt: true }, { quoted: m }) 
 break
 case 'jadianime': {
-if (!isPremium && global.db.data.users[m.sender].limit < 1) return m.reply(mess.endLimit) // respon ketika limit habis
+if (!isPremium && global.db.data.users[m.sender].limit < 1) return m.reply(mess.endLimit)
 db.data.users[m.sender].limit -= 5
-         try {
-         let ai2d = require('@arugaz/ai2d')
-         let { TelegraPh } = require('./lib/uploader')
-            if (!/image\/(jpe?g|png)/.test(mime)) return m.reply(`Kirim gambar dengan caption atau reply ${isPrefix + command}`)
-            let img = await sabiq.downloadAndSaveMediaMessage(quoted)
-            if (!img) return m.reply(`Kirim gambar dengan caption atau reply ${prefix + command}`)
-            m.reply(mess.wait)
-            //await sabiq.sendMessage(from, { react: { text: `🕒`, key: m.key }})
-            let image = await TelegraPh(img)
-            await ai2d(image, {
-               proxy: {
-                  url: "http://101.32.184.53:3128",
-                  chinese: true,
-                  image: false,
-               },
-            }).then(async (h) => {
-            //if (!result || result.constructor.name != 'String') return setReply(`gagal:V`)
-            console.log(h)
-            sabiq.sendFile(m.chat, h, ``, `*Anjai jadi Animeh :v*`, m)
-           })
-      } catch (e) {
-         console.log(e)
-         return m.reply(`Mukanya kaga keliatan`)
-      }
-      }
-      break
+if (!/image\/(jpe?g|png)/.test(mime)) return m.reply(`Kirim gambar dengan caption atau reply ${prefix + command}`)
+let img = await sabiq.downloadAndSaveMediaMessage(quoted)
+if (!img) return m.reply(`Kirim gambar dengan caption atau reply ${prefix + command}`)
+m.reply(mess.wait)
+let { TelegraPh } = require('./lib/uploader')
+let image = await TelegraPh(img)
+let buff = await getBuffer(`https://api-srart24.my.id/filter/jadianime?apikey=srart24&img=${image}`)
+sabiq.sendMessage(m.chat, { image: buff, caption: `Nihh kak`, footer: footer }, { quoted: m})
+}
+break
 //FITUR AI
 case 'open-ai': case 'ai': case 'oai':{
 if (!isPremium && global.db.data.users[m.sender].limit < 1) return m.reply(mess.endLimit) // respon ketika limit habis
