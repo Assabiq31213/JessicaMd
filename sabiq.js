@@ -2385,13 +2385,9 @@ sabiq.sendImageAsSticker(m.chat, res.result, m, { packname: packname, author: au
  break
 case 'attp': {
 if (!text) throw `Example : ${prefix + command} text`
-sabiq.sendVideoAsSticker(m.chat, 'https://zcxapi.my.id/attp?text=${text}', m, { packname: packname, author: author })
+sabiq.sendVideoAsSticker(m.chat, `https://api.lolhuman.xyz/api/attp?apikey=kiroapi&text=${text}`, m, { packname: packname, author: author })
  }
  break
-case 'at': {
-sabiq.sendMessage(m.chat, { sticker: { url : `https://zcxapi.my.id/attp?text=${q}` }}, {quoted:m})
-}
-break
 case 'tts': {
 if (!text) throw `Example : ${prefix + command} text`
 let tts = await fetchJson(`https://api.akuari.my.id/texttovoice/texttosound_id?query=${text}`)
